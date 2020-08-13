@@ -53,7 +53,7 @@ public class RedisRabbitmqController implements InitializingBean {
         //查询库存数量
         List<Map<String, Object>> stockList = miaoshaService.queryAllGoodStock();
         System.out.println("系统初始化："+stockList);
-        if(stockList == null){
+        if(stockList.size() <= 0){
             return;
         }
         for(Map<String, Object> m : stockList) {
@@ -66,8 +66,6 @@ public class RedisRabbitmqController implements InitializingBean {
 
     /**
      * 请求秒杀,redis+rabbitmq方式
-     * 1.根据需求   校验是否频繁请求
-     * 2.           校验是否重复下单
      */
     @SuppressWarnings("unchecked")
     @RequestMapping(value="/go")
@@ -82,7 +80,8 @@ public class RedisRabbitmqController implements InitializingBean {
         String userid = parameterMap.get("userId").toString();
         String goodsId = parameterMap.get("goodsId").toString();
         long num = Long.parseLong(parameterMap.get("num").toString());
-
+        //1.根据需求   校验是否频繁请求
+        // 2.           校验是否重复下单
 //        Map<String,Object> map = redisService.get("order"+userid+"_"+goodsId,Map.class);
 //        if(map != null) {
 //            return "重复下单";
