@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mydeo.seckilldemo.dao.MiaoshaDao">
+
+  <!--返回结果 -->
+  <resultMap id="BaseResultMap" type="java.util.Map">
+    <result column="GOODS_ID" jdbcType="VARCHAR"  javaType="String" property="goods_id" />
+    <result column="STOCK_COUNT" jdbcType="VARCHAR"  javaType="String" property="stock_count" />
+  </resultMap>
+
+  <!--查询全部商品库存数量 -->
+  <select id="queryAllGoodStock" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT id as goodsId,goods_stock FROM goods
+  </select>
+
+  <!--通过商品ID查询库存数量 -->
+  <select id="queryGoodStockById" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT id,goods_stock FROM goods WHERE ID = #{goods_id}
+  </select>
+
+  <!--查询用户是否下过订单 -->
+  <select id="queryOrderByUserIdAndCoodsId" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT id FROM order_record WHERE user_id = #{userId} AND goods_id = #{goodsId}
+  </select>
+
+  <!--减少库存数量 -->
+  <update id="updateGoodStock" parameterType="java.util.Map">
+    UPDATE goods SET goods_stock = goods_stock - ${num} WHERE goods_stock > 0 AND ID = #{goods_id}
+  </update>
+
+  <!--下订单 -->
+  <insert id="insertOrder" parameterType="java.util.Map">
+    INSERT INTO order_record(
+    user_id,
+    goods_id,
+    num,
+    create_time
+    ) VALUES(
+    #{user_id},
+    #{goods_id},
+    #{num},
+    now()
+    )
+  </insert>
+
+</mapper>

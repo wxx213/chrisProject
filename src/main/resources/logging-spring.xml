@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!--application.yml 传递参数，不能使用logback 自带的<property>标签 -->
+    <springProperty scope="context" name="appName" source="logging.appname"/>
+    <springProperty scope="context" name="logDir" source="logging.path"/>
+    <!-- 日志上下文名称 -->
+    <contextName>${appName}</contextName>
+
+    <!-- 日志名称 -->
+    <property name="log_name" value="${appName}"/>
+    <!-- 日志格式 -->
+    <property name="log_format" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %contextName %p %t %c - %line|%m%n"/>
+
+    <!-- 根据策略输出控制台 -->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="UTF-8">
+            <pattern>${log_format}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 根据策略生成日志文件 -->
+    <appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 日志内容格式 -->
+        <encoder>
+            <pattern>${log_format}</pattern>
+        </encoder>
+        <!-- 滚动策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/${log_name}-%d{yyyy-MM-dd}-%i.log.zip</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>100MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <!-- 控制日志输出级别 -->
+    <root>
+        <level value="INFO"/> <!--ALL,TRACE,DEBUG,INFO,WARN,ERROR,FATAL,OFF-->
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="rollingFile"/>
+    </root>
+</configuration>
