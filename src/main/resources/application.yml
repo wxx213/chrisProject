@@ -15,7 +15,7 @@ yn:
 #日志
 logging:
   appname: ynmanage
-  path: /home/testOrder/dev/logs
+  path: /tmp/testOrder/dev/logs
   config: classpath:logging-spring.xml
 
 #spring
@@ -29,11 +29,11 @@ spring:
           additional-paths: src/main/java #重启目录
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource    # 数据源
-    url: jdbc:mysql://192.168.1.100:3306/younong?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
+    url: jdbc:mysql://localhost/younong?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
 #    url:  jdbc:mysql://39.104.57.231:3306/younong?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ynAdmin
-    password: YDCvJr;ly3Oq
+    username: root
+    password: wxx123
     # 下面为连接池的补充设置，应用到上面所有数据源中
     # 初始化大小，最小，最大
     initial-size: 5
@@ -63,12 +63,12 @@ spring:
   rabbitmq:
 
     #测试服务器
-    host: 192.168.1.100
+    host: localhost
     #正式服务器
 #    host: 39.104.57.231
     port: 5672
-    username: ynadmin
-    password: ynadmin@2019
+    username: guest
+    password: wxx123
 
   #分页pageHelper
   pagehelper:
@@ -79,9 +79,9 @@ spring:
 
   redis:
     database: 0
-    host: 39.104.57.231
+    host: localhost
     port: 6379
-    password: younongapp@2019
+    password: wxx123
     jedis:
       pool:
         max-active: -1  # 最大连接数
