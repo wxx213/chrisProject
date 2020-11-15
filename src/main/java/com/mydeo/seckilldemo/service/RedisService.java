@@ -33,7 +33,7 @@ public class RedisService extends CachingConfigurerSupport {
     @Bean
     public JedisPool redisPoolFactory() {
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, "192.168.1.100", 6379, 5000, "younongapp@2019");
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, "localhost", 6379, 5000, "wxx123");
         return jedisPool;
     }
 
